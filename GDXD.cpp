@@ -40,12 +40,14 @@ bool isRunning(const std::string& process) {
 }
 
 int execute(const std::string& command) {
-    STARTUPINFO info = { sizeof(info) };
+    STARTUPINFOW info = { sizeof(info) };
     PROCESS_INFORMATION process;
 
-    if (!CreateProcess(
+    std::wstring wcommand(command.begin(), command.end());
+
+    if (!CreateProcessW(
         nullptr,
-        const_cast<char*>(command.c_str()),
+        &wcommand[0],
         nullptr,
         nullptr,
         FALSE,
